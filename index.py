@@ -1,6 +1,6 @@
 # print('hello world')
 # print('hello')
-
+# 주사위게임
 import random
 
 print("🎲 주사위 게임에 오신 것을 환영합니다! 🎲")
