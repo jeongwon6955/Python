@@ -1,4 +1,1 @@
-print("hello")
-
-import random
-
+# 입출력문 연습 - print input # 한줄 주석  
