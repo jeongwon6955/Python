@@ -14,4 +14,3 @@ while True:
     break
  else:
     print('입력값이 1이 아닙니다')
-    
