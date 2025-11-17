@@ -50,6 +50,7 @@ pygame.draw.circle(pad, blue, (320 , 60), 10, 5)
 
 pygame.draw.polygon(pad, black, ((w/2,h/3),(100,400), (380,400)), 0)
 
+
 pygame.display.update()
 
 while True:
