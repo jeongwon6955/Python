@@ -21,6 +21,13 @@ h = 600
 pad = pygame.display.set_mode((w,h))
 pygame.display.set_caption('Shooting Game')
 
+# -------------글씨 쓰기 함수------------------
+def write(string,a,b,color,size = 20):
+    global pad
+    font = pygame.font.Font('images/NanumGothic.ttf',size)
+    text = font.render(string, False, color)
+    pad.blit(text,(a,b))
+# ---------------------------------------------
 
 # -------------이미지 로드 함수------------------
 def img_load(obj):
@@ -30,11 +37,11 @@ def img_load(obj):
 # ---------------------------------------------
 
 
-bg = img_load("background2.jpg")[0] # 이미지 가져오기
+bg = img_load("background3.jpg")[0] # 이미지 가져오기
 p,pw,ph = img_load("plane3.png")
 px = w/2-pw/2
 py = h-ph
-ps = 0 # 전투기 스피드
+ps = 0  # 전투기 스피드
 
 # -----------------운석그리기----------------
 rlist = ["rock01", "rock02", "rock03", "rock04", "rock05", "rock06", "rock07", "rock08", "rock09", "rock10",]
@@ -59,6 +66,10 @@ mx = px+pw/2-mw/2
 my = py-mh
 mlist = []
 # -------------------------------------------
+
+# ---------------폭발 이미지 만들기------------
+exp = img_load("explosion.png")[0]
+# ------------------------------------------
 
 pad.blit(bg,(0,0))
 pad.blit(p,(px,py))
@@ -101,11 +112,24 @@ while True:
     pad.blit(p,(px,py))
     pad.blit(r,(rx,ry))
 
+    # 전투기와 바위가 부딪친 상황
+    if (py < ry + rh) and (px < rx + rw) and (px + pw > rx):
+        pad.blit(exp,(rx,ry))
+        rock_init() 
+
     if len(mlist) != 0: # 발사된 미사일이 있을때
         for mis in mlist:
             mis[1] -= 20
-            pad.blit(m,(mis[0],mis[1]))
-            if mis[1] < -50:
+            # 운석과 미사일이 충돌
+            if mis[1] < ry + rh and (mis[0] < rx + rw) and (mis[0] + mw > rx):
+                pad.blit(exp,(rx, ry))
                 mlist.remove(mis)
+                rock_init()
+            elif mis[1] < -50:
+                mlist.remove(mis)
+
+            pad.blit(m,(mis[0],mis[1]))
+    
+    write("Scores: ",10,10,white)
     pygame.display.update()
     clock.tick(60)
